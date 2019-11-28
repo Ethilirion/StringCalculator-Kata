@@ -10,5 +10,10 @@ namespace Tests
         {
             int result = Add("");
         }
+
+        private int Add(string v)
+        {
+            return 0;
+        }
     }
 }
