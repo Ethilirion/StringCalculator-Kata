@@ -8,6 +8,7 @@ namespace Tests
         [Fact]
         public void Add_EmptyString_ShouldReturnZero()
         {
+            int result = Add("");
         }
     }
 }
