@@ -11,7 +11,7 @@ namespace Tests
             int result = Add("");
         }
 
-        private int Add(string v)
+        private int Add(string inputString)
         {
             return 0;
         }
