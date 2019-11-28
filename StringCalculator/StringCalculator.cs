@@ -19,6 +19,13 @@ namespace Tests
             Assert.Equal<int>(1, result);
         }
 
+        [Fact]
+        public void Add_Two_ShouldReturnTwo()
+        {
+            int result = Add("2");
+            Assert.Equal<int>(2, result);
+        }
+
         private int Add(string inputString)
         {
             if (inputString == "1")
