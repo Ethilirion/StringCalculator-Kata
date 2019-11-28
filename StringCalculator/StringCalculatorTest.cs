@@ -1,4 +1,5 @@
 using Kata;
+using System;
 using Xunit;
 
 namespace Tests
@@ -40,6 +41,20 @@ namespace Tests
         {
             int result = calculator.Add("2,2");
             Assert.Equal<int>(4, result);
+        }
+
+        [Fact]
+        public void Add_ThreeAndThreeSeparatedByComma_ShouldReturnSix()
+        {
+            int result = calculator.Add("3,3");
+            Assert.Equal<int>(6, result);
+        }
+
+        [Fact]
+        public void Add_MultipleSeparatorsAndThreeNumbers_ShouldReturnSix()
+        {
+            int result = calculator.Add("1\n2,3");
+            Assert.Equal<int>(6, result);
         }
     }
 }
