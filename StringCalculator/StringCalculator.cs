@@ -13,7 +13,7 @@ namespace Tests
         }
 
         [Fact]
-        public void Add_JustOneNumber_ShouldReturnTheNumber()
+        public void Add_One_ShouldReturnOne()
         {
             int result = Add("1");
             Assert.Equal<int>(1, result);
