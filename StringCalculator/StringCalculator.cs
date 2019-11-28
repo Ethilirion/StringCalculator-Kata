@@ -20,7 +20,14 @@ namespace Tests
             int result = Add(input);
             Assert.Equal<int>(outputExpected, result);
         }
-        
+
+        [Fact]
+        public void Add_TwoNumbersSeparatedByComma_ShouldReturnSum()
+        {
+            int result = Add("3,2");
+            Assert.Equal<int>(5, result);
+        }
+
         private int Add(string inputString)
         {
             if (inputString == "")
