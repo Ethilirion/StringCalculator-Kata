@@ -56,11 +56,5 @@ namespace Tests
             int result = calculator.Add("1\n2,3");
             Assert.Equal<int>(6, result);
         }
-
-        [Fact]
-        public void Add_TooManySeparatorsAndThreeNumbers_ShouldThrow()
-        {
-            Assert.Throws<Exception>(() => calculator.Add("1\n2\n,3"));
-        }
     }
 }
