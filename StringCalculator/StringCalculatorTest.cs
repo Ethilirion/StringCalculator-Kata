@@ -62,5 +62,12 @@ namespace Tests
         {
             Assert.Throws<Exception>(() => calculator.Add("1\n3,\n2"));
         }
+
+        [Fact]
+        public void Add_InitializeDifferentSeparatorAndComputeTwoAndTwo_ShouldReturnFour()
+        {
+            int result = calculator.Add("//;\n2;2");
+            
+        }
     }
 }
