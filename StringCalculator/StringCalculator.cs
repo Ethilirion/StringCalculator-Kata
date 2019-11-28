@@ -21,10 +21,17 @@ namespace Tests
         }
 
         [Fact]
-        public void Add_TwoNumbersSeparatedByComma_ShouldReturnSum()
+        public void Add_TwoAndThreeSeparatedByComma_ShouldReturnFive()
         {
             int result = Add("3,2");
             Assert.Equal<int>(5, result);
+        }
+
+        [Fact]
+        public void Add_TwoAndTwoSeparatedByComma_ShouldReturnFour()
+        {
+            int result = Add("2,2");
+            Assert.Equal<int>(4, result);
         }
 
         private int Add(string inputString)
