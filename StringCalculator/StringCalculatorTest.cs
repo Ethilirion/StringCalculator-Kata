@@ -67,7 +67,7 @@ namespace Tests
         public void Add_InitializeDifferentSeparatorAndComputeTwoAndTwo_ShouldReturnFour()
         {
             int result = calculator.Add("//;\n2;2");
-            
+            Assert.Equal<int>(4, result);
         }
     }
 }
