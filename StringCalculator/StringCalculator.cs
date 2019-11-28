@@ -30,6 +30,8 @@ namespace Tests
         {
             if (inputString == "1")
                 return 1;
+            if (inputString == "2")
+                return 2;
             return 0;
         }
     }
