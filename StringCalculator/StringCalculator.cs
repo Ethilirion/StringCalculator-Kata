@@ -12,20 +12,15 @@ namespace Tests
             Assert.Equal<int>(0, result);
         }
 
-        [Fact]
-        public void Add_One_ShouldReturnOne()
+        [Theory]
+        [InlineData("1", 1)]
+        [InlineData("2", 2)]
+        public void Add_SingleNumber_ShouldReturnCorrespondingInt(string input, int outputExpected)
         {
-            int result = Add("1");
-            Assert.Equal<int>(1, result);
+            int result = Add(input);
+            Assert.Equal<int>(outputExpected, result);
         }
-
-        [Fact]
-        public void Add_Two_ShouldReturnTwo()
-        {
-            int result = Add("2");
-            Assert.Equal<int>(2, result);
-        }
-
+        
         private int Add(string inputString)
         {
             if (inputString == "")
