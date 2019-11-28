@@ -12,6 +12,13 @@ namespace Tests
             Assert.Equal<int>(0, result);
         }
 
+        [Fact]
+        public void Add_JustOneNumber_ShouldReturnTheNumber()
+        {
+            int result = Add("1");
+            Assert.Equal<int>(1, result);
+        }
+
         private int Add(string inputString)
         {
             return 0;
