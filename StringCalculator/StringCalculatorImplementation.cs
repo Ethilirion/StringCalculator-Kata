@@ -21,6 +21,20 @@ namespace Kata
             return ComputeNumbers(numbers);
         }
 
+        private IEnumerable<char> InitializeSeparators(string inputString)
+        {
+            if (InputStringContainsHeader(inputString))
+                return InitializeSeparatorsFromHeader(inputString);
+            return new List<char> { ',', '\n' };
+        }
+
+        private string RemoveHeaderFromInputString(string inputString)
+        {
+            if (InputStringContainsHeader(inputString))
+                return CleansedInputString(inputString);
+            return inputString;
+        }
+
         private void GuardInputAgainstIncorrectValues(string inputStringWithoutHeader, IEnumerable<char> separators)
         {
             if (InputContainsNegativeCharacters(inputStringWithoutHeader, separators))
@@ -29,6 +43,13 @@ namespace Kata
                 throw new Exception("incorrect separators");
             if (TooManySeparatorsForNumbers(inputStringWithoutHeader, separators))
                 throw new Exception("too many separators");
+        }
+
+        private IEnumerable<int> GetNumbersFromInput(string inputString, IEnumerable<char> separators)
+        {
+            return from numberAsString in inputString.Split(separators.ToArray())
+                   where numberAsString != string.Empty
+                   select int.Parse(numberAsString);
         }
 
         private bool InputContainsNegativeCharacters(string inputStringWithoutHeader, IEnumerable<char> separators)
@@ -55,13 +76,6 @@ namespace Kata
             return correctSymbols.IsMatch(inputStringWithoutHeader) == false;
         }
 
-        private string RemoveHeaderFromInputString(string inputString)
-        {
-            if (InputStringContainsHeader(inputString))
-                return CleansedInputString(inputString);
-            return inputString;
-        }
-
         private string CleansedInputString(string inputString)
         {
             int indexHeaderEnding = inputString.IndexOf(addHeaderEnding);
@@ -78,21 +92,6 @@ namespace Kata
         private int ComputeNumbers(IEnumerable<int> numbers)
         {
             return numbers.Sum();
-        }
-
-        private IEnumerable<int> GetNumbersFromInput(string inputString, IEnumerable<char> separators)
-        {
-            return from numberAsString
-                   in inputString.Split(separators.ToArray())
-                   where numberAsString != string.Empty
-                   select int.Parse(numberAsString);
-        }
-
-        private IEnumerable<char> InitializeSeparators(string inputString)
-        {
-            if (InputStringContainsHeader(inputString))
-                return InitializeSeparatorsFromHeader(inputString);
-            return new List<char> { ',', '\n' };
         }
 
         private IEnumerable<char> InitializeSeparatorsFromHeader(string inputString)
