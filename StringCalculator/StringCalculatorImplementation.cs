@@ -16,21 +16,36 @@ namespace Kata
                 return 0;
             IEnumerable<char> separators = InitializeSeparators(inputString);
             string inputStringWithoutHeader = RemoveHeaderFromInputString(inputString);
+            GuardIncorrectValues(inputStringWithoutHeader, separators);
+            IEnumerable<int> numbers = GetNumbersFromInput(inputStringWithoutHeader, separators);
+            return ComputeNumbers(numbers);
+        }
+
+        private void GuardIncorrectValues(string inputStringWithoutHeader, IEnumerable<char> separators)
+        {
             if (InputContainsNegativeCharacters(inputStringWithoutHeader, separators))
                 throw new Exception("negatives not allowed");
             if (InputContainsIncorrectSymbols(inputStringWithoutHeader, separators))
                 throw new Exception("incorrect separators");
             if (TooManySeparators(inputStringWithoutHeader, separators))
                 throw new Exception("too many separators");
-            IEnumerable<int> numbers = GetNumbersFromInput(inputStringWithoutHeader, separators);
-            return ComputeNumbers(numbers);
         }
 
         private bool InputContainsNegativeCharacters(string inputStringWithoutHeader, IEnumerable<char> separators)
         {
-            if (separators.Contains('-') == false && inputStringWithoutHeader.Contains('-'))
+            if (SeparatorsDoNotContainNegativeSymbol(separators) && InputStringContainsNegativeSymbol(inputStringWithoutHeader))
                 return true;
             return false;
+        }
+
+        private bool InputStringContainsNegativeSymbol(string inputStringWithoutHeader)
+        {
+            return inputStringWithoutHeader.Contains('-');
+        }
+
+        private bool SeparatorsDoNotContainNegativeSymbol(IEnumerable<char> separators)
+        {
+            return separators.Contains('-') == false;
         }
 
         private bool InputContainsIncorrectSymbols(string inputStringWithoutHeader, IEnumerable<char> separators)

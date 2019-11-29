@@ -95,7 +95,7 @@ namespace Tests
             {
                 exceptionMessage = ex.Message;
             }
-            Assert.Equal("negative not allowed", exceptionMessage);
+            Assert.Equal("negatives not allowed", exceptionMessage);
         }
     }
 }
