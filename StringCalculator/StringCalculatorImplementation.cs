@@ -13,22 +13,27 @@ namespace Kata
         public int Add(string inputString)
         {
             if (InputStringIsEmpty(inputString))
-                return 0;
-            IEnumerable<char> separators = InitializeSeparators(inputString);
-            string inputStringWithoutHeader = RemoveHeaderFromInputString(inputString);
+                return DefaultValue();
+            IEnumerable<char> separators = InitializeDefaultSeparatorsOrFromHeader(inputString);
+            string inputStringWithoutHeader = RemoveHeaderFromInputStringIfPresent(inputString);
             GuardInputAgainstIncorrectValues(inputStringWithoutHeader, separators);
-            IEnumerable<int> numbers = GetNumbersFromInput(inputStringWithoutHeader, separators);
-            return ComputeNumbers(numbers);
+            return ComputeSumForNumbersInInput(inputStringWithoutHeader, separators);
         }
 
-        private IEnumerable<char> InitializeSeparators(string inputString)
+        private int ComputeSumForNumbersInInput(string inputStringWithoutHeader, IEnumerable<char> separators)
+        {
+            IEnumerable<int> numbers = GetNumbersFromInput(inputStringWithoutHeader, separators);
+            return ComputeSum(numbers);
+        }
+
+        private IEnumerable<char> InitializeDefaultSeparatorsOrFromHeader(string inputString)
         {
             if (InputStringContainsHeader(inputString))
                 return InitializeSeparatorsFromHeader(inputString);
             return new List<char> { ',', '\n' };
         }
 
-        private string RemoveHeaderFromInputString(string inputString)
+        private string RemoveHeaderFromInputStringIfPresent(string inputString)
         {
             if (InputStringContainsHeader(inputString))
                 return CleansedInputString(inputString);
@@ -89,9 +94,14 @@ namespace Kata
             return numberOfSeparators >= numberOfNumbers;
         }
 
-        private int ComputeNumbers(IEnumerable<int> numbers)
+        private int ComputeSum(IEnumerable<int> numbers)
         {
             return numbers.Sum();
+        }
+
+        private int DefaultValue()
+        {
+            return 0;
         }
 
         private IEnumerable<char> InitializeSeparatorsFromHeader(string inputString)
