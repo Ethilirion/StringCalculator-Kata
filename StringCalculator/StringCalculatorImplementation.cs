@@ -7,8 +7,8 @@ namespace Kata
 {
     public class StringCalculatorImplementation : StringCalculator
     {
-        private string addHeaderBegining = "//";
-        private string addHeaderEnding = "\n";
+        private readonly string addHeaderBegining = "//";
+        private readonly string addHeaderEnding = "\n";
 
         public int Add(string inputString)
         {
