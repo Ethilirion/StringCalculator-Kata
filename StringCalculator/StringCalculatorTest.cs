@@ -64,17 +64,38 @@ namespace Tests
         }
 
         [Fact]
-        public void Add_InitializeSemiColonSeparatorAndComputeTwoAndTwo_ShouldReturnFour()
+        public void Add_SemiColonSeparatorAndComputeTwoAndTwo_ShouldReturnFour()
         {
             int result = calculator.Add("//;\n2;2");
             Assert.Equal<int>(4, result);
         }
 
         [Fact]
-        public void Add_InitializeUnderscoreSeparatorAndComputeTwoAndTwo_ShouldReturnFour()
+        public void Add_UnderscoreSeparatorAndComputeTwoAndTwo_ShouldReturnFour()
         {
             int result = calculator.Add("//_\n2_2");
             Assert.Equal<int>(4, result);
+        }
+
+        [Fact]
+        public void Add_SemiColonSeparatorAndComputeTwoAndTwo_ShouldThrowForCommaSeparator()
+        {
+            Assert.Throws<Exception>(() => calculator.Add("//;\n2,2"));
+        }
+
+        [Fact]
+        public void Add_NegativeNumbers_ShouldThrow()
+        {
+            string exceptionMessage = "";
+            try
+            {
+                calculator.Add("-2");
+            }
+            catch (Exception ex)
+            {
+                exceptionMessage = ex.Message;
+            }
+            Assert.Equal("negative not allowed", exceptionMessage);
         }
     }
 }

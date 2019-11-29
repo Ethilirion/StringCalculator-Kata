@@ -16,10 +16,28 @@ namespace Kata
                 return 0;
             IEnumerable<char> separators = InitializeSeparators(inputString);
             string inputStringWithoutHeader = RemoveHeaderFromInputString(inputString);
+            if (InputContainsNegativeCharacters(inputStringWithoutHeader, separators))
+                throw new Exception("negatives not allowed");
+            if (InputContainsIncorrectSymbols(inputStringWithoutHeader, separators))
+                throw new Exception("incorrect separators");
             if (TooManySeparators(inputStringWithoutHeader, separators))
                 throw new Exception("too many separators");
             IEnumerable<int> numbers = GetNumbersFromInput(inputStringWithoutHeader, separators);
             return ComputeNumbers(numbers);
+        }
+
+        private bool InputContainsNegativeCharacters(string inputStringWithoutHeader, IEnumerable<char> separators)
+        {
+            if (separators.Contains('-') == false && inputStringWithoutHeader.Contains('-'))
+                return true;
+            return false;
+        }
+
+        private bool InputContainsIncorrectSymbols(string inputStringWithoutHeader, IEnumerable<char> separators)
+        {
+            string correctSymbolsPattern = $@"^[\d{string.Concat(separators)}]+$";
+            Regex correctSymbols = new Regex(correctSymbolsPattern);
+            return correctSymbols.IsMatch(inputStringWithoutHeader) == false;
         }
 
         private string RemoveHeaderFromInputString(string inputString)
