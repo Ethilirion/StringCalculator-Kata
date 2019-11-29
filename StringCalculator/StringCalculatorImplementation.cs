@@ -16,18 +16,18 @@ namespace Kata
                 return 0;
             IEnumerable<char> separators = InitializeSeparators(inputString);
             string inputStringWithoutHeader = RemoveHeaderFromInputString(inputString);
-            GuardIncorrectValues(inputStringWithoutHeader, separators);
+            GuardInputAgainstIncorrectValues(inputStringWithoutHeader, separators);
             IEnumerable<int> numbers = GetNumbersFromInput(inputStringWithoutHeader, separators);
             return ComputeNumbers(numbers);
         }
 
-        private void GuardIncorrectValues(string inputStringWithoutHeader, IEnumerable<char> separators)
+        private void GuardInputAgainstIncorrectValues(string inputStringWithoutHeader, IEnumerable<char> separators)
         {
             if (InputContainsNegativeCharacters(inputStringWithoutHeader, separators))
                 throw new Exception("negatives not allowed");
             if (InputContainsIncorrectSymbols(inputStringWithoutHeader, separators))
                 throw new Exception("incorrect separators");
-            if (TooManySeparators(inputStringWithoutHeader, separators))
+            if (TooManySeparatorsForNumbers(inputStringWithoutHeader, separators))
                 throw new Exception("too many separators");
         }
 
@@ -68,7 +68,7 @@ namespace Kata
             return inputString.Substring(indexHeaderEnding + 1);
         }
 
-        private bool TooManySeparators(string inputString, IEnumerable<char> separators)
+        private bool TooManySeparatorsForNumbers(string inputString, IEnumerable<char> separators)
         {
             int numberOfSeparators = inputString.Count(separator => separators.Contains(separator));
             int numberOfNumbers = GetNumbersFromInput(inputString, separators).Count();
