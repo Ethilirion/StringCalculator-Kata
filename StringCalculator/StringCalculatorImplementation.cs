@@ -14,21 +14,21 @@ namespace Kata
         {
             if (InputStringIsEmpty(inputString))
                 return DefaultValue();
-            InputAndSeparators inputAndSeparators = InitializeSeparatorsAndInput(inputString);
-            GuardInputAgainstIncorrectValues(inputAndSeparators);
-            return ComputeSumForNumbersInInput(inputAndSeparators);
+            AddNumbersData dataFromInput = InitializeSeparatorsAndInput(inputString);
+            GuardInputAgainstIncorrectValues(dataFromInput);
+            return ComputeSumForNumbersInInput(dataFromInput);
         }
 
-        private InputAndSeparators InitializeSeparatorsAndInput(string inputString)
+        private AddNumbersData InitializeSeparatorsAndInput(string inputString)
         {
             IEnumerable<char> separators = InitializeDefaultSeparatorsOrFromHeader(inputString);
             string inputStringWithoutHeader = RemoveHeaderFromInputStringIfPresent(inputString);
-            return new InputAndSeparators { inputWithoutHeader = inputStringWithoutHeader, separators = separators };
+            return new AddNumbersData { inputWithoutHeader = inputStringWithoutHeader, separators = separators };
         }
 
-        private int ComputeSumForNumbersInInput(InputAndSeparators inputAndSeparators)
+        private int ComputeSumForNumbersInInput(AddNumbersData dataFromInput)
         {
-            IEnumerable<int> numbers = GetNumbersFromInput(inputAndSeparators);
+            IEnumerable<int> numbers = GetNumbersFromInput(dataFromInput);
             return ComputeSum(numbers);
         }
 
@@ -46,26 +46,26 @@ namespace Kata
             return inputString;
         }
 
-        private void GuardInputAgainstIncorrectValues(InputAndSeparators inputAndSeparators)
+        private void GuardInputAgainstIncorrectValues(AddNumbersData dataFromInput)
         {
-            if (InputContainsNegativeCharacters(inputAndSeparators))
+            if (InputContainsNegativeCharacters(dataFromInput))
                 throw new Exception("negatives not allowed");
-            if (InputContainsIncorrectSymbols(inputAndSeparators))
+            if (InputContainsIncorrectSymbols(dataFromInput))
                 throw new Exception("incorrect separators");
-            if (TooManySeparatorsForNumbers(inputAndSeparators))
+            if (TooManySeparatorsForNumbers(dataFromInput))
                 throw new Exception("too many separators");
         }
 
-        private IEnumerable<int> GetNumbersFromInput(InputAndSeparators inputAndSeparators)
+        private IEnumerable<int> GetNumbersFromInput(AddNumbersData dataFromInput)
         {
-            return from numberAsString in inputAndSeparators.inputWithoutHeader.Split(inputAndSeparators.separators.ToArray())
+            return from numberAsString in dataFromInput.inputWithoutHeader.Split(dataFromInput.separators.ToArray())
                    where numberAsString != string.Empty
                    select int.Parse(numberAsString);
         }
 
-        private bool InputContainsNegativeCharacters(InputAndSeparators inputAndSeparators)
+        private bool InputContainsNegativeCharacters(AddNumbersData dataFromInput)
         {
-            if (SeparatorsDoNotContainNegativeSymbol(inputAndSeparators.separators) && InputStringContainsNegativeSymbol(inputAndSeparators.inputWithoutHeader))
+            if (SeparatorsDoNotContainNegativeSymbol(dataFromInput.separators) && InputStringContainsNegativeSymbol(dataFromInput.inputWithoutHeader))
                 return true;
             return false;
         }
@@ -80,11 +80,11 @@ namespace Kata
             return separators.Contains('-') == false;
         }
 
-        private bool InputContainsIncorrectSymbols(InputAndSeparators inputAndSeparators)
+        private bool InputContainsIncorrectSymbols(AddNumbersData dataFromInput)
         {
-            string correctSymbolsPattern = $@"^[\d{string.Concat(inputAndSeparators.separators)}]+$";
+            string correctSymbolsPattern = $@"^[\d{string.Concat(dataFromInput.separators)}]+$";
             Regex correctSymbols = new Regex(correctSymbolsPattern);
-            return correctSymbols.IsMatch(inputAndSeparators.inputWithoutHeader) == false;
+            return correctSymbols.IsMatch(dataFromInput.inputWithoutHeader) == false;
         }
 
         private string CleansedInputString(string inputString)
@@ -93,21 +93,21 @@ namespace Kata
             return inputString.Substring(indexHeaderEnding + 1);
         }
 
-        private bool TooManySeparatorsForNumbers(InputAndSeparators inputAndSeparators)
+        private bool TooManySeparatorsForNumbers(AddNumbersData dataFromInput)
         {
-            int numberOfSeparators = CountNumberOfSeparators(inputAndSeparators);
-            int numberOfNumbers = CoutNumberOfNumbers(inputAndSeparators);
+            int numberOfSeparators = CountNumberOfSeparators(dataFromInput);
+            int numberOfNumbers = CoutNumberOfNumbers(dataFromInput);
             return numberOfSeparators >= numberOfNumbers;
         }
 
-        private int CoutNumberOfNumbers(InputAndSeparators inputAndSeparators)
+        private int CoutNumberOfNumbers(AddNumbersData dataFromInput)
         {
-            return GetNumbersFromInput(inputAndSeparators).Count();
+            return GetNumbersFromInput(dataFromInput).Count();
         }
 
-        private int CountNumberOfSeparators(InputAndSeparators inputAndSeparators)
+        private int CountNumberOfSeparators(AddNumbersData dataFromInput)
         {
-            return inputAndSeparators.inputWithoutHeader.Count(separator => inputAndSeparators.separators.Contains(separator));
+            return dataFromInput.inputWithoutHeader.Count(separator => dataFromInput.separators.Contains(separator));
         }
 
         private int ComputeSum(IEnumerable<int> numbers)

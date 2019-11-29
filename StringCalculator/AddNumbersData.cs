@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kata
 {
-    public struct InputAndSeparators
+    public struct AddNumbersData
     {
         public IEnumerable<char> separators;
         public string inputWithoutHeader;
