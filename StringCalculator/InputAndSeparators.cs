@@ -7,6 +7,6 @@ namespace Kata
     public struct InputAndSeparators
     {
         public IEnumerable<char> separators;
-        public string input;
+        public string inputWithoutHeader;
     }
 }
